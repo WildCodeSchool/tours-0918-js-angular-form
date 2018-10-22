@@ -4,11 +4,11 @@
       <h3>Template-Driven Form Validation</h3>
 
       <!-- sign up form -->
-      <form name="form" (ngSubmit)="onSubmit()">
+      <form name="form" (ngSubmit)="onSubmit()" #f="ngForm">
         <!-- first name field -->
         <div class="form-group">
           <label for="firstName">First Name</label>
-          <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" required/>
+          <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" required/>
         </div>
         <!-- last name field -->
         <div class="form-group">
@@ -35,3 +35,53 @@
     </div>
   </div>
 </div>
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">status</th>
+        <th scope="col">valid</th>
+        <th scope="col">invalid</th>
+        <th scope="col">pristine</th>
+        <th scope="col">dirty</th>
+        <th scope="col">touched</th>
+        <th scope="col">untouched</th>
+        <th scope="col">errors</th>
+        <th scope="col">submitted</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>form</td>
+        <td>{{f.status}}</td>
+        <td>{{f.valid}}</td>
+        <td>{{f.invalid}}</td>
+        <td>{{f.pristine}}</td>
+        <td>{{f.dirty}}</td>
+        <td>{{f.touched}}</td>
+        <td>{{f.untouched}}</td>
+        <td></td>
+        <td>{{f.submitted}}</td>
+      </tr>
+      <tr *ngFor="let control of f.controls | keyvalue">
+        <td>{{control.key}}</td>
+        <td>{{control.value.status}}</td>
+        <td>{{control.value.valid}}</td>
+        <td>{{control.value.invalid}}</td>
+        <td>{{control.value.pristine}}</td>
+        <td>{{control.value.dirty}}</td>
+        <td>{{control.value.touched}}</td>
+        <td>{{control.value.untouched}}</td>
+        <td>
+          <span *ngIf="control.value.errors">
+            <span *ngFor="let error of control.value.errors | keyvalue">
+              {{error.key}}
+            </span>
+          </span>
+        </td>
+        <td>{{control.value.submitted}}</td>
+      </tr>
+
+    </tbody>
+  </table>
